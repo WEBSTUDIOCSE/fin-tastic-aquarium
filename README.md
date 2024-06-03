@@ -3,35 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fin-tastic Aquariums Website</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      padding: 20px;
-      background-color: #f4f4f4;
-    }
-    h1, h2, h3 {
-      color: #333;
-    }
-    h1 {
-      text-align: center;
-    }
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-    ul li {
-      margin: 10px 0;
-    }
-    code {
-      display: block;
-      background: #eee;
-      padding: 10px;
-      border-radius: 5px;
-      margin: 10px 0;
-    }
-  </style>
+ 
 </head>
 <body>
 
