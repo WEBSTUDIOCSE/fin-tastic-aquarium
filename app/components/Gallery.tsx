@@ -1,33 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { db } from "~/firebaseConfig";
+import {
+  collection,
+  DocumentData,
+  QueryDocumentSnapshot,
+  getDocs,
+} from "firebase/firestore";
 
 const Gallery = () => {
-  const images = [
-    {
-      src: "https://i.natgeofe.com/n/fcfb6198-4a0f-4c73-988c-b07be7d8d888/STOCKPKG_MJ8859___DSC2961.jpg",
-      alt: "Fish 1",
-    },
-    {
-      src: "https://i.natgeofe.com/n/fcfb6198-4a0f-4c73-988c-b07be7d8d888/STOCKPKG_MJ8859___DSC2961.jpg",
-      alt: "Fish 2",
-    },
-    {
-      src: "https://i.natgeofe.com/n/fcfb6198-4a0f-4c73-988c-b07be7d8d888/STOCKPKG_MJ8859___DSC2961.jpg",
-      alt: "Fish 3",
-    },
-    {
-      src: "https://i.natgeofe.com/n/fcfb6198-4a0f-4c73-988c-b07be7d8d888/STOCKPKG_MJ8859___DSC2961.jpg",
-      alt: "Fish 4",
-    },
-    {
-      src: "https://i.natgeofe.com/n/fcfb6198-4a0f-4c73-988c-b07be7d8d888/STOCKPKG_MJ8859___DSC2961.jpg",
-      alt: "Fish 5",
-    },
-    {
-      src: "https://i.natgeofe.com/n/fcfb6198-4a0f-4c73-988c-b07be7d8d888/STOCKPKG_MJ8859___DSC2961.jpg",
-      alt: "Fish 6",
-    },
-    // Add more images as needed
-  ];
+  const [images, setImages] = useState<{ src: string; alt: string }[]>([]);
+
+  useEffect(() => {
+    // Function to fetch images from Firestore
+    const fetchImages = async () => {
+      try {
+        const imagesCollection = collection(db, "FishGallery");
+        const querySnapshot = await getDocs(imagesCollection); // Use getDocs to retrieve documents
+
+        const fetchedImages: { src: string; alt: string }[] = [];
+        querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
+          // Each document represents an image
+          fetchedImages.push({
+            src: doc.data().imageUrl,
+            alt: doc.data().createdAt.toDate().toLocaleDateString(), // Use createdAt as alt text (you can adjust this)
+          });
+        });
+        console.log(fetchedImages, "Imagess");
+        setImages(fetchedImages);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchImages(); // Fetch images when component mounts
+
+    // Cleanup function
+    return () => {
+      // Cleanup logic (if any)
+    };
+  }, []); // Run effect only once when component mounts
 
   return (
     <section className="py-12 bg-background">
